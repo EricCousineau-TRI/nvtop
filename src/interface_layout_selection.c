@@ -87,8 +87,6 @@ static unsigned info_in_plot(unsigned plot_id, unsigned devices_count,
     if (map_device_to_plot[dev_id] == plot_id)
       sum += plot_count_draw_info(to_draw[dev_id]);
   }
-  if (sum == 0)
-    sum = 1;
   return sum;
 }
 
@@ -378,9 +376,10 @@ void compute_sizes_from_layout(
           unsigned max_plot_cols =
               cols_needed_box_drawing +
               cols_for_line_drawing * num_info_per_plot[j] / lines_to_draw;
-          unsigned plot_cols =
-              max_plot_cols -
-              (max_plot_cols - cols_needed_box_drawing) % num_info_per_plot[j];
+          unsigned plot_cols = 0;
+          if (num_info_per_plot[j] > 0) {
+            plot_cols = max_plot_cols -
+                (max_plot_cols - cols_needed_box_drawing) % num_info_per_plot[j];
           plot_positions[num_plot_done].posX = currentPosX;
           plot_positions[num_plot_done].posY = currentPosY;
           plot_positions[num_plot_done].sizeX = plot_cols;
