@@ -87,7 +87,8 @@ static unsigned info_in_plot(unsigned plot_id, unsigned devices_count,
     if (map_device_to_plot[dev_id] == plot_id)
       sum += plot_count_draw_info(to_draw[dev_id]);
   }
-  assert(sum > 0);
+  if (sum == 0)
+    sum = 1;
   return sum;
 }
 
